@@ -1,0 +1,19 @@
+*~
+.svn
+
+# mac ish stuff
+*.xcodeproj
+*.pbxproj
+.DS_Store
+
+# eclipse/maven
+target/
+bin/
+build/
+test-output/
+ant.*
+doc/
+.settings
+.classpath
+#.project
+#build.properties

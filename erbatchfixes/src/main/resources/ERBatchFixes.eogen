@@ -1,0 +1,1 @@
+ -destination src/main/java -extension java -java -javaTemplate _WonderEntity.java -model src/main/resources/ERBatchFixes.eomodeld -packagedirs -subclassDestination src/main/java -subclassJavaTemplate WonderEntity.java -templatedir /Developer/Applications/WebObjects/eogenTemplates -verbose -loadModelGroup

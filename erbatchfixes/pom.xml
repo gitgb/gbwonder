@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>er.batchfixes</groupId>
+	<artifactId>ERBatchFixes</artifactId>
+	<packaging>woframework</packaging>
+	<version>5.4.0-SNAPSHOT</version>
+	<name>ERBatchFixes WebObjects Framework</name>
+	<url>http://github.com/gitgb/gbwonder</url>
+	<description>
+		To use wo53 version,in Eclipse clickon project, >Properties >Maven >Active Profiles: add wo53
+
+		could use mvn versions:set AND mvn deploy versions:rollback
+		for different versions
+		NOTES: Specify wide range of versions, it downloads every version.
+	</description>
+	<parent>
+		<groupId>gb.gbwonder</groupId>
+		<artifactId>gbcommon-womaven-parent</artifactId>
+		<version>5.4-SNAPSHOT</version>
+		<!-- -->
+		<relativePath>../gbcommon-womaven-parent</relativePath>
+	</parent>
+	<licenses>
+		<license>
+			<name>ApacheLicense2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+			<distribution>repo</distribution>
+			<comments> </comments>
+		</license>
+	</licenses>
+	<properties>
+		<!-- properties used for filtering and dependency management -->
+		<jvmtarget>1.5</jvmtarget>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<webobjects.groupId>com.webobjects</webobjects.groupId>
+		<wonder.core.groupId>wonder.core</wonder.core.groupId>
+		<webobjects.version>[5.3.3,5.5)</webobjects.version>
+		<wonder.version>[5.0.0,5.4.1)</wonder.version>
+		<wonder.classifier></wonder.classifier>
+	</properties>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+
+			<plugin>
+				<groupId>org.objectstyle.woproject.maven2</groupId>
+				<artifactId>maven-wolifecycle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<skipAppleProvidedFrameworks>true</skipAppleProvidedFrameworks>
+					<classifier>${wonder.classifier}</classifier>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jvmtarget}</source>
+					<target>${jvmtarget}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--
+					This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself.
+				-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.objectstyle.woproject.maven2</groupId>
+										<artifactId> maven-wolifecycle-plugin </artifactId>
+										<versionRange>[2.1,)</versionRange>
+										<goals>
+											<goal> define-woframework-resources </goal>
+											<goal>woframework</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencies>
+		<!-- All here as the order will affect things -->
+		<dependency>
+			<groupId>${wonder.core.groupId}</groupId>
+			<artifactId>ERExtensions</artifactId>
+			<version>${wonder.version}</version>
+			<classifier>${wonder.classifier}</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${wonder.core.groupId}</groupId>
+			<artifactId>ERPrototypes</artifactId>
+			<version>${wonder.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${webobjects.groupId}</groupId>
+			<artifactId>JavaWebObjects</artifactId>
+			<version>${webobjects.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${webobjects.groupId}</groupId>
+			<artifactId>JavaEOAccess</artifactId>
+			<version>${webobjects.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${webobjects.groupId}</groupId>
+			<artifactId>JavaFoundation</artifactId>
+			<version>${webobjects.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+	</dependencies>
+	<profiles>
+
+		<!-- To make several versions -->
+		<profile>
+			<id>wo53</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<webobjects.version>5.3.3</webobjects.version>
+				<wonder.version>5.0.0-SNAPSHOT</wonder.version>
+				<wonder.classifier>wo53</wonder.classifier>
+			</properties>
+
+		</profile>
+
+	</profiles>
+	
+</project>

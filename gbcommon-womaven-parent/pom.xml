@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>gb.gbwonder</groupId>
+	<artifactId>gbcommon-womaven-parent</artifactId>
+	<version>5.4-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>gb common womaven parent</name>
+	<description>This holds common values for my womaven projects.
+		It references generic-woparent pom.
+		</description>
+
+	<parent>
+		<groupId>gb.gbwonder</groupId>
+		<artifactId>generic-woparent</artifactId>
+		<version>5.4-SNAPSHOT</version>
+<!-- 		<relativePath>../generic-woparent</relativePath>  -->
+		<relativePath>../generic-woparent</relativePath> 
+	</parent>
+	<developers>
+		<developer>
+			<id>x</id>
+			<name>G Brown</name>
+			<email>medsoftw@gmail.com</email>
+			<organization></organization>
+			<organizationUrl></organizationUrl>
+			<timezone>est</timezone>
+		</developer>
+	</developers>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.4.2</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
+				 
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.objectstyle.woproject.maven2
+										</groupId>
+										<artifactId>
+											maven-wolifecycle-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>woapplication</goal>
+											<goal>
+												define-woapplication-resources
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	 
+		 
+	</build>
+
+	<distributionManagement>
+		<!-- To distribute define properties snapshots.url and releases.url probably 
+			in .m2/settings.xml 
+			Also, make ids very generic, eg snapshots, releases, so different settings.xml 
+			files can define different urls and different nexus repos will deploy-->
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>${snapshots.url}</url>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<uniqueVersion>true</uniqueVersion>
+			<name>DevelopmentReleases</name>
+			<url>${releases.url}</url>
+		</repository>
+		<!-- <site> <id>mojo.website</id> <name>Mojo Website</name> <url>scp://beaver.codehaus.org/home/projects/mojo/public_html/</url> 
+			</site> -->
+	</distributionManagement>
+
+
+</project>

@@ -1,0 +1,43 @@
+{
+    attributes = (
+        {
+            allowsNull = Y; 
+            columnName = finished; 
+            name = finished; 
+            prototypeName = intBoolean; 
+        }, 
+        {
+            allowsNull = Y; 
+            columnName = fixLog; 
+            name = fixLog; 
+            prototypeName = varcharLarge; 
+        }, 
+        {columnName = fixname; name = fixname; prototypeName = varchar255; }, 
+        {allowsNull = N; name = id; prototypeName = id; }, 
+        {
+            allowsNull = Y; 
+            columnName = rCreateTime; 
+            name = rCreateTime; 
+            prototypeName = dateTime; 
+        }, 
+        {
+            allowsNull = Y; 
+            columnName = rLastModified; 
+            name = rLastModified; 
+            prototypeName = dateTime; 
+        }, 
+        {
+            allowsNull = Y; 
+            columnName = started; 
+            name = started; 
+            prototypeName = intBoolean; 
+        }
+    ); 
+    attributesUsedForLocking = (fixname, id); 
+    className = "er.batchfixes.ERBatchFixes"; 
+    classProperties = (finished, fixLog, fixname, rCreateTime, rLastModified, started); 
+    externalName = "_ERBatchFixes"; 
+    fetchSpecificationDictionary = {}; 
+    name = ERBatchFixes; 
+    primaryKeyAttributes = (id); 
+}
