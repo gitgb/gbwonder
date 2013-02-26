@@ -39,7 +39,7 @@
 		<webobjects.groupId>com.webobjects</webobjects.groupId>
 		<wonder.core.groupId>wonder.core</wonder.core.groupId>
 		<webobjects.version>[5.3.3,5.5)</webobjects.version>
-		<wonder.version>[5.0.0,5.4.1)</wonder.version>
+		<wonder.version>[5.4.1,5.8)</wonder.version>
 		<wonder.classifier></wonder.classifier>
 	</properties>
 	<build>
