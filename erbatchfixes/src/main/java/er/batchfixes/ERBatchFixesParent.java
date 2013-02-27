@@ -27,7 +27,7 @@ public abstract class ERBatchFixesParent {
 	private ERBatchFixes fixrecord = null; // db record of fixes
 	protected ERBatchFixesAppender appender = new ERBatchFixesAppender() ;
 
-	
+
 	/**
 	 * Made to be called by its children, Fix0, Fix1, etc.  If the fix "fixname" has already been recorded as finished, you will
 	 * not be able to construct one of these, as it will throw a BatchFixFinished exception.
@@ -39,23 +39,16 @@ public abstract class ERBatchFixesParent {
 	 */
 	public ERBatchFixesParent(String fixname) throws ERBatchFixFinished, IllegalStateException {
 		_fixname = fixname;
-		
+
 		// check props, do they want fixes?
 		String propflag = System.getProperty("er.batchfixes.dofixes");
 		if( !(propflag != null && propflag.equalsIgnoreCase("true")) ) throw new IllegalStateException(); // don't ask if you don't want
-		
-		try {
-			log.addAppender(appender); // add our appender to this logger
-			log.debug("Application is checking to see if " + fixname + " has been done");
+
+		log.addAppender(appender); // add our appender to this logger
+		log.debug("Application is checking to see if " + fixname + " has been done");
+
+		try { // examine or create fixrecord
 			fixrecord = ERBatchFixes.fetchRequiredERBatchFixes(ec, ERBatchFixes.FIXNAME.eq(fixname));
-			if (fixrecord.finished()) {
-				done = true;
-				log.info(fixname + " has already been finished.");
-				throw  new ERBatchFixFinished(fixname + " has already been finished.");
-			} else {
-				log.info("Will execute " + fixname);
-				done = false;				
-			}
 		} catch (NoSuchElementException no) {
 			// well, better start one, create a record
 			fixrecord = ERBatchFixes.createERBatchFixes(ec, fixname);
@@ -65,11 +58,23 @@ public abstract class ERBatchFixesParent {
 			done = false;
 		} catch (IllegalStateException illegal) { // too many?
 			log.error("Database has multiple fix records for " + fixname, illegal);
-			done = true; // don't try it again.
-		} finally {
-			if(fixrecord != null)	fixrecord.setFixLog( appender.getString() ) ;
-			ec.saveChanges(); // commit to db
+			done = true; // prevent running the doit
+			throw illegal ; // we are outta here
+		}  
+
+
+
+		if (fixrecord.finished()) {
+			done = true;
+			log.info(fixname + " has already been finished.");
+			throw  new ERBatchFixFinished(fixname + " has already been finished."); // we are done here
+		} else {
+			log.info("Will execute " + fixname);
+			done = false;				
 		}
+
+		if(fixrecord != null)	fixrecord.setFixLog( appender.getString() ) ;
+		ec.saveChanges(); // commit to db
 
 	}
 
@@ -77,6 +82,10 @@ public abstract class ERBatchFixesParent {
 	 * Mark the db record for the fix as done
 	 */
 	public void markFixFinshed() {
+		if(done) {
+			log.error("Already considered done, con't mark finished! " + _fixname );	
+			return;
+		}
 		log.info("Application is marking " + _fixname + " as done");
 		if(fixrecord == null){
 			log.error("Trying to markFixFinished, but there is no fix record to mark! ");
@@ -112,13 +121,13 @@ public abstract class ERBatchFixesParent {
 	public void setLayout(Layout layout){
 		appender.setLayout(layout);
 	}
-	
+
 	/**
 	 * @return - the current layout in use.
 	 */
 	public Layout getLayout(){
 		return appender.getLayout();
-		
+
 	}
-	
+
 }//eoc
